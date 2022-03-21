@@ -1,24 +1,19 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('02-add-to-cart', () => {
-  test('add HW0109', async ({ page }) => {
-    await page.goto(`https://milkmidi.github.io/e2e-test-html/`, { waitUntil: 'networkidle' });
-    await page.click('[data-sku="HW0109"] button');
+test.describe('02-addToCart', () => {
+  test('test add to cart', async ({ page }) => {
+    await page.goto(`https://lookbook2010.easy.co/`);
+    await page.waitForTimeout(1000);
+    const allProducts = await page.$$('.product_grid-item');
+    await allProducts[0].click();
+    await page.click('#AddToCart');
+    await page.waitForTimeout(3000);
+    // await page.click('#AddToCart');
+    // await page.waitForTimeout(3000);
+    const cartItems = await page.$$('.cart__row--table-large');
 
-    const baseAmount = await page.innerText('.cart-drawer__base-amount span');
-    const HW0109Price = await page.locator('[data-sku="HW0109"]').getAttribute('data-price');
-    expect(baseAmount).toBe(HW0109Price);
-  });
-
-  test('add HW0109, HW0110', async ({ page }) => {
-    await page.goto(`https://milkmidi.github.io/e2e-test-html/`, { waitUntil: 'networkidle' });
-    await page.click('[data-sku="HW0109"] button');
-    await page.click('[data-sku="HW0110"] button');
-
-    const baseAmount = await page.innerText('.cart-drawer__base-amount span');
-    const HW0109Price = (await page.locator('[data-sku="HW0109"]').getAttribute('data-price')) as string;
-    const HW0110Price = (await page.locator('[data-sku="HW0110"]').getAttribute('data-price')) as string;
-    const queryAmount = parseInt(HW0109Price, 10) + parseInt(HW0110Price, 10);
-    expect(baseAmount).toBe(`${queryAmount}`);
+    expect(cartItems.length).toBe(2);
+    expect(cartItems.length).not.toBe(1);
+    expect(cartItems.length).not.toBe(3);
   });
 });
