@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('practice', () => {
-  test.only('test prices', async ({ page }) => {
+  test('test prices', async ({ page }) => {
     await page.goto(`https://lookbook2010.easy.co/`);
     await page.waitForTimeout(1000);
     const allProducts = await page.$$('.product_grid-item');
